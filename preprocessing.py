@@ -10,6 +10,13 @@ OUTPUT_DIR = "processed/"
 TARGET_SIZE = (224, 224)
 AUGMENTATIONS_PER_IMAGE = 3
 
+DATALABEL_DATA = {
+    "displayName": "grains",
+    "labelsSet": [{"name": "sorghum"}, {"name": "corn"}, {"name": "wheat"}],
+    "annotationFormat": "MULTI_LABEL",
+    "datasetFormatDetails": {"formatType": "IMAGE"},
+}
+
 # Ensure output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -111,6 +118,7 @@ def main():
     image_id = 1
     
     with open(metadata_path, 'w') as jsonl_file:
+        jsonl_file.write(json.dumps(DATALABEL_DATA, separators=(",", ":")) + "\n")
         # Process all images
         for subdir, _, files in os.walk(INPUT_DIR):
             label = os.path.basename(subdir)
