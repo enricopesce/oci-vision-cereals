@@ -1,18 +1,5 @@
 ## Prepare the data for the OCI Vision neural network
 
-These images are not sufficient to train a model, I experienced that a neural network to work well requires more images filtered and augmented.
-
-In my little iteration, I prepared a script to preprocess and augment the original images using some basic techniques:
-
-- Resize and crop
-- Apply random rotation
-- Apply random brightness
-- Apply random horizontal flip
-
-other techniques are well documented [in this paper](https://arxiv.org/pdf/2301.02830).
-
-You can find the Python script here: [https://github.com/enricopesce/oci-vision-cereals/blob/main/preprocessing.py](https://github.com/enricopesce/oci-vision-cereals/blob/main/preprocessing.py)
-
 Basically a final user can only run the script and generate from the original images other images optimized and augmented ready to be trained on the OCI services.
 
 ```console
@@ -30,31 +17,6 @@ oci os object bulk-upload \
  --namespace-name YOURNAMESPACENAME \
  --bucket-name YOURBUCKETNAME \
  --src-dir processed/ --content-type image/jpeg
-```
-
-Now we are ready to use OCI Artificial Intelligence service!
-
-### Labeling data with OCI Data Label
-
-To build a model, before, we need to classify the images, in other words, we need to assign for every image a tag corrispondig the content: wheat, corn or sorghum.
-
-Yes is it a boring phase but fortunately the script, executed before, generated a JSONL file with all metadata to import on OCI Vision for you!!!
-
-The new processed folder contains all processed images classified by a folder and the metadata file in JSON line format supported by OCI Vision with all data needed.
-
-```console
-.
-├── README.md
-├── original
-│   ├── corn
-│   ├── sorghum
-│   └── wheat
-├── preprocessing.py
-└── processed
- ├── corn
- ├── metadata.jsonl
- ├── sorghum
- └── wheat
 ```
 
 Now you have the same processed content in YOURBUCKETNAME ready to be imported!
